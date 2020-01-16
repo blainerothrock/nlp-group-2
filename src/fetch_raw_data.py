@@ -2,12 +2,6 @@ from constants import Global, DataManagment
 from wiki_parser import WikiParser
 from SPARQLWrapper import SPARQLWrapper, JSON
 from time import sleep
-import logging
-
-
-endpoint_url = "https://query.wikidata.org/sparql"
-
-query = Global.sparql_query
 
 def get_results(endpoint_url, query):
     sparql = SPARQLWrapper(endpoint_url)
@@ -18,22 +12,25 @@ def get_results(endpoint_url, query):
 
 def fetch():
     # fetch page labels
+    endpoint_url = "https://query.wikidata.org/sparql"
+    query = Global.sparql_query
     parser = WikiParser()
-    titles = DataManagment.get_titles()
+    pages = DataManagment.get_pages()
 
-    if titles is None:
+    if pages is None:
         results = get_results(endpoint_url, query)
-        titles = [ele[Global.sparql_page_label]['value'] for ele in results['results']['bindings']]
-        DataManagment.save_titles(titles)
+        bindings = filter(lambda x: Global.sparql_page_label in x, results['results']['bindings'])
+        pages = set([ele[Global.sparql_page_label]['value'] for ele in bindings])
+        DataManagment.save_pages(pages)
 
     texts = []
 
-    for title in titles[0:1]:
-        print('fetching text for %s' % title)
+    print('fetching %i wikipedia pages' % len(pages))
+    for url in pages:
+        print('  fetching text for %s' % url)
         parser = WikiParser()
-        data = parser.fetch_page(title)
-        text = data['parse']['text']['*']
-        texts.append(text)
-        sleep(1)
+        raw_text = parser.fetch_page(url)
+        texts.append(raw_text)
+        sleep(0.25)
 
     DataManagment.write_raw_text(texts)

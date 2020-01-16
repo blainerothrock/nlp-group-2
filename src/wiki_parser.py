@@ -1,4 +1,6 @@
 import requests
+from bs4 import BeautifulSoup
+import typing
 
 
 class WikiParser():
@@ -7,17 +9,9 @@ class WikiParser():
         self.S = requests.Session()
         self.URL = "https://en.wikipedia.org/w/api.php"
 
-    def fetch_page(self, title):
-        params = {
-            "action": "parse",
-            "page": title,
-            "format": "json"
-        }
+    def fetch_page(self, url: str) -> str:
+        index = requests.get(url).text
+        soup = BeautifulSoup(index, 'html.parser')
+        text = "\n".join([x.get_text() for x in soup.findAll('p')])
 
-        res = self.S.get(
-            url=self.URL,
-            params=params
-        )
-
-        data = res.json()
-        return data
+        return text
