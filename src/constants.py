@@ -36,7 +36,7 @@ class Global:
     raw_text_url = 'data/group2.raw.txt'
 
 
-class DataManagment:
+class DataManagement:
 
     @staticmethod
     def purge():

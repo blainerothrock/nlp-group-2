@@ -1,4 +1,4 @@
-from constants import Global, DataManagment
+from constants import Global, DataManagement
 from wiki_parser import WikiParser
 from SPARQLWrapper import SPARQLWrapper, JSON
 from time import sleep
@@ -15,13 +15,13 @@ def fetch():
     endpoint_url = "https://query.wikidata.org/sparql"
     query = Global.sparql_query
     parser = WikiParser()
-    pages = DataManagment.get_pages()
+    pages = DataManagement.get_pages()
 
     if pages is None:
         results = get_results(endpoint_url, query)
         bindings = filter(lambda x: Global.sparql_page_label in x, results['results']['bindings'])
         pages = set([ele[Global.sparql_page_label]['value'] for ele in bindings])
-        DataManagment.save_pages(pages)
+        DataManagement.save_pages(pages)
 
     texts = []
 
@@ -33,4 +33,4 @@ def fetch():
         texts.append(raw_text)
         sleep(0.25)
 
-    DataManagment.write_raw_text(texts)
+    DataManagement.write_raw_text(texts)
