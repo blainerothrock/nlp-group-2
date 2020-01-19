@@ -35,6 +35,9 @@ class Global:
     # text files
     raw_text_url = 'data/group2.raw.txt'
 
+    # train/valid/test sizes
+    train_percent = .9
+
 
 class DataManagement:
 
