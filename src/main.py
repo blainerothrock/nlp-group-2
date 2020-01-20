@@ -4,8 +4,8 @@ from prepare_corpus import Corpus
 
 def main():
     # get raw data
-    DataManagment.purge()
-    fetch()
+    #DataManagment.purge()
+    #fetch()
 
     # create corpus
     c = Corpus()
