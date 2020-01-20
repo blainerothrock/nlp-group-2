@@ -13,9 +13,9 @@ Configurations/parameters can be found in `constants.py`
 - [ ] Configure main method take parameters based on task to be ran
     * **For example**: `python main.py build_corpus`
     
-## Pre-processing TO DO (helpful, not mission critical)
+## Pre-processing TO DO (subject to change)
+- [ ] Remove punctuation
 - [ ] Remove "[citation needed]" - could just adjust current regex code in prepare-corpus branch
-- [ ] etc.
     
 ## List of Questions for David
 - [ ] Q1
