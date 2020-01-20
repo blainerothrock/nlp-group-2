@@ -38,6 +38,11 @@ class Global:
     # train/valid/test sizes
     train_percent = .9
 
+    # train/valid/test files
+    train_url = 'data/group2.train.txt'
+    valid_url = 'data/group2.valid.txt'
+    test_url = 'data/group2.test.txt'
+
 
 class DataManagement:
 
@@ -64,3 +69,15 @@ class DataManagement:
     def write_raw_text(texts: List[str]):
         with open(Global.raw_text_url, 'w') as f:
             f.writelines("%s\n" % text for text in texts)
+
+    @staticmethod
+    def write_train_valid_test(train: str, valid: str, test: str):
+        with open(Global.train_url, 'w') as f:
+            f.write(train)
+        f.close()
+        with open(Global.valid_url, 'w') as f:
+            f.write(valid)
+        f.close()
+        with open(Global.test_url, 'w') as f:
+            f.write(test)
+        f.close()

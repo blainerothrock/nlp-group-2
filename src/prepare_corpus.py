@@ -1,6 +1,6 @@
 import re
 import nltk
-from constants import Global
+from constants import Global, DataManagement
 import time
 
 
@@ -11,25 +11,24 @@ class Corpus():
     def __init__(self):
         # stores all the tokens from the text
         self.tokens = []
+        self.train_tokens = []
+        self.valid_tokens = []
+        self.test_tokens = []
+        self.num_train = 0
+        self.num_valid = 0
+        self.num_test = 0
         self.count = 0
 
-    def load_and_clean(self, test=False, subset=10):
+    def load_and_clean(self):
         """
         This function loads the raw text, removes occurrences of [#], delineates sentences
         using <s> and </s> and tokenizes the text.
 
-        Args:
-            test (bool): whether to test the function or not
-            subset (int): how many lines to view in the test
-
-        Returns:
-
         """
-
         # required
         nltk.download('punkt')
 
-        print('\nStarting cleaning and tokenizing...')
+        print('\nStarting cleaning and tokenizing (should take <1 min)...')
         start = time.time()
 
         # read raw text
@@ -54,32 +53,46 @@ class Corpus():
 
                                 self.tokens += sentence_tokens
 
-                # TODO: remove this block eventually
-                i += 1
-                if test:
-                    if i == subset:
-                        print('TOKENS:', self.tokens)
-                        break
-
         # close raw data file and report
         f.close()
         self.count = len(self.tokens)
         end = time.time()
-        print('\nCleaning and tokenizing took ', round((end-start)/60, 4), ' minutes.')
+        print('\nCleaning and tokenizing took', round(end-start, 2), ' seconds.')
 
 
     def train_valid_test_split(self):
+        """
+        Splits the tokens into train/valid/test sets based on train_percent (default is 90% or .9).
+        The remaining tokens are split evenly into validation and test sets.
 
+        """
+        print('\nSplitting train and test data...')
+        # store training tokens
+        self.num_train = int(Global.train_percent * self.count)
 
-"""
-Run this file to test the Corpus code with a subset of data
+        # probably best to cut it off at end a sentence (when we see </s>)
+        end_of_sentence = False
+        while not end_of_sentence:
+            if self.tokens[self.num_train-1] != '</s>':
+                self.num_train += 1
+            else:
+                end_of_sentence = True
 
-TODO: remove this block eventually
-"""
-def test():
-    c = Corpus()
+        self.train_tokens = self.tokens[:self.num_train]
 
-    c.load_and_clean(test=True)
+        # store valid
+        self.num_valid = (self.count - self.num_train) // 2
+        self.valid_tokens = self.tokens[self.num_train:(self.num_train+self.num_valid)]
 
+        # store test
+        self.num_test = self.count - (self.num_train+self.num_valid)
+        self.test_tokens = self.tokens[(self.num_train+self.num_valid):]
 
-test()
+        assert(self.num_train + self.num_valid + self.num_test == self.count)
+
+        # combine the tokens into one large string and write to file
+        print('\nWriting to files...')
+        DataManagement.write_train_valid_test(" ".join(self.train_tokens), \
+                                              " ".join(self.valid_tokens), \
+                                              " ".join(self.test_tokens))
+        print('\nDone.')
