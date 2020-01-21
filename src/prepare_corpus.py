@@ -92,7 +92,5 @@ class Corpus():
 
         # combine the tokens into one large string and write to file
         print('\nWriting to files...')
-        DataManagement.write_train_valid_test(" ".join(self.train_tokens), \
-                                              " ".join(self.valid_tokens), \
-                                              " ".join(self.test_tokens))
+        DataManagement.write_train_valid_test(self.train_tokens, self.valid_tokens, self.test_tokens)
         print('\nDone.')

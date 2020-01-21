@@ -39,9 +39,14 @@ class Global:
     train_percent = .9
 
     # train/valid/test files
-    train_url = 'data/group2.train.txt'
-    valid_url = 'data/group2.valid.txt'
-    test_url = 'data/group2.test.txt'
+    train_txt_url = 'data/group2.train.txt'
+    valid_txt_url = 'data/group2.valid.txt'
+    test_txt_url = 'data/group2.test.txt'
+
+    # train/valid/test pickle files
+    train_pickle_url = 'data/group2.train.p'
+    valid_pickle_url = 'data/group2.valid.p'
+    test_pickle_url = 'data/group2.test.p'
 
 
 class DataManagement:
@@ -71,13 +76,19 @@ class DataManagement:
             f.writelines("%s\n" % text for text in texts)
 
     @staticmethod
-    def write_train_valid_test(train: str, valid: str, test: str):
-        with open(Global.train_url, 'w') as f:
-            f.write(train)
+    def write_train_valid_test(train: List[str], valid: List[str], test: List[str]):
+        # dump to lists pickle and write as string to txt file
+        pickle.dump(train, open(Global.train_pickle_url, 'wb'))
+        with open(Global.train_txt_url, 'w') as f:
+            f.writelines("%s " % tok for tok in train)
         f.close()
-        with open(Global.valid_url, 'w') as f:
-            f.write(valid)
+
+        pickle.dump(valid, open(Global.valid_pickle_url, 'wb'))
+        with open(Global.valid_txt_url, 'w') as f:
+            f.writelines("%s " % tok for tok in valid)
         f.close()
-        with open(Global.test_url, 'w') as f:
-            f.write(test)
+
+        pickle.dump(test, open(Global.test_pickle_url, 'wb'))
+        with open(Global.test_txt_url, 'w') as f:
+            f.writelines("%s " % tok for tok in test)
         f.close()
