@@ -1,10 +1,10 @@
-from fetch_raw_data import fetch
-from constants import DataManagment
+from preprocess import preprocess
+from get_train import get_train
 
 def main():
-    print('hello NLP')
-    DataManagment.purge()
-    fetch()
+    outcome = preprocess(get_train())
+
+    print(outcome)
 
 if __name__ == '__main__':
     main()
