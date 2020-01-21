@@ -6,6 +6,7 @@ def get_train():
 	f = open(PATH,'rU')
 	raw = f.read()
 	tokens = word_tokenize(raw)
-	words = set([w.lower() for w in tokens])
+	words = [w.lower() for w in tokens]
+	words = list(set(words))
 
 	return words
