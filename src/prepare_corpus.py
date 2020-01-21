@@ -1,5 +1,6 @@
 import re
 import nltk
+from nltk.tokenize import RegexpTokenizer
 from constants import Global, DataManagement
 import time
 
@@ -21,8 +22,9 @@ class Corpus():
 
     def load_and_clean(self):
         """
-        This function loads the raw text, removes occurrences of [#], delineates sentences
-        using <s> and </s> and tokenizes the text.
+        This function loads the raw text, tokenizes using RegexpTokenizer which removes
+        punctuation and things like wikipedia sources in brackets, e.g. [7]. It converts
+        words to lowercase and adds <s> and </s> to dilineate the beginning of sentences.
 
         """
         # required
@@ -42,10 +44,14 @@ class Corpus():
                     if sentences:
                         for idx, sentence in enumerate(sentences):
                             # remove appearances of [#] (wikipedia sources)
-                            sentence = re.sub(r"\[[0-9]+\]", '', sentence)
+                            #sentence = re.sub(r"\[[0-9]+\]", '', sentence)
 
                             if sentence and not sentence.isspace():
-                                sentence_tokens = nltk.word_tokenize(sentence)
+                                sentence = sentence.lower()
+
+                                # create tokens and remove punctuation
+                                tokenizer = RegexpTokenizer(r'\w+')
+                                sentence_tokens = tokenizer.tokenize(sentence)
 
                                 # append <s> and </s> to begin and end of sentences
                                 sentence_tokens.insert(0, '<s>')
@@ -58,7 +64,6 @@ class Corpus():
         self.count = len(self.tokens)
         end = time.time()
         print('\nCleaning and tokenizing took', round(end-start, 2), ' seconds.')
-
 
     def train_valid_test_split(self):
         """
@@ -94,3 +99,14 @@ class Corpus():
         print('\nWriting to files...')
         DataManagement.write_train_valid_test(self.train_tokens, self.valid_tokens, self.test_tokens)
         print('\nDone.')
+
+
+# def test():
+#     c = Corpus()
+#
+#     c.load_and_clean()
+#
+#     print(c.tokens[:500])
+#
+# test()
+
