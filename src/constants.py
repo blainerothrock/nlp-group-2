@@ -10,27 +10,28 @@ class Global:
     PREFIX wd: <http://www.wikidata.org/entity/>
     PREFIX wdt: <http://www.wikidata.org/prop/direct/>
     
-    SELECT ?serial_killer ?serial_killerLabel ?article WHERE {
+    SELECT ?ship ?shipLabel ?article WHERE {
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-      ?serial_killer wdt:P106 wd:Q484188.
+      ?ship wdt:P31 wd:Q11446.
       
       OPTIONAL {
-          ?serial_killer rdfs:label ?country filter (lang(?country) = "en") .
-        }
-      
+        ?ship rdfs:label ?country filter (lang(?country) = "en") .
+      }
+          
       OPTIONAL {
-          ?article schema:about ?serial_killer .
-          ?article schema:inLanguage "en" .
-          ?article schema:isPartOf <https://en.wikipedia.org/> .
-        }
-      
+        ?article schema:about ?ship .
+        ?article schema:inLanguage "en" .
+        ?article schema:isPartOf <https://en.wikipedia.org/> .
+      }
     }
-    LIMIT 1000
+    LIMIT 10
     """
-    sparql_page_label: str = "article"
+    sparql_page_label: str = 'article'
+    sparql_name_label: str = 'shipLabel'
 
     # pickles
     pages_url: str = 'data/page_links.p'
+    names_url: str = 'data/page_titles.p'
 
     # text files
     raw_text_url = 'data/group2.raw.txt'
@@ -69,6 +70,18 @@ class DataManagement:
     @staticmethod
     def save_pages(titles: Set[str]):
         pickle.dump(titles, open(Global.pages_url, 'wb'))
+
+    @staticmethod
+    def get_names() -> Optional[Set[str]]:
+        try:
+            f = open(Global.names_url, "rb")
+            return pickle.load(f)
+        finally:
+            return None
+
+    @staticmethod
+    def save_names(titles: Set[str]):
+        pickle.dump(titles, open(Global.names_url, 'wb'))
 
     @staticmethod
     def write_raw_text(texts: List[str]):
