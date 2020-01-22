@@ -26,7 +26,7 @@ Configurations/parameters can be found in `constants.py`
     - [x] Remove "[citation needed]" - could just adjust current regex code in prepare-corpus branch
 - [x] Generated train, test & validation text files
 - [ ] Remove tokens with frequency < 3
-- [ ] Add punctuation back in
+- [ ] Add punctuation back in!
 
 ### Task 3
 - [x] Construct a vocabulary from the training set
@@ -39,6 +39,7 @@ Configurations/parameters can be found in `constants.py`
 ### Task 4
 - [ ] Insert tags for years
 - [ ] Insert tags for real numbers
+- [ ] Keep other numbers in as tokens (don't tag or remove them)
 - [ ] Insert tags for `c` <-- decide what tag to remove
 - [ ] Insert tags for `d` <-- decide what tag to remove
 - [ ] Add these tags to the `vocab` list before making integer representation
