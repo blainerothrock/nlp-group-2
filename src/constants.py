@@ -29,9 +29,14 @@ class Global:
     sparql_page_label: str = 'article'
     sparql_name_label: str = 'shipLabel'
 
-    topics: str = ['battles-1901-2000', 'war']
-    list_urls: str = ['https://en.wikipedia.org/wiki/List_of_battles_(alphabetical)', 'https://en.wikipedia.org/wiki/Outline_of_war#Wars']
-    html_tags: str = ['li', 'li']
+    # topics: str = ['battles-1901-2000', 'war']
+    # list_urls: str = ['https://en.wikipedia.org/wiki/List_of_battles_(alphabetical)', 'https://en.wikipedia.org/wiki/Outline_of_war#Wars']
+    # html_tags: str = ['li', 'li']
+    topics: str = ['Egyptian_American_writers']
+    list_urls: str = ['https://en.wikipedia.org/wiki/List_of_Egyptian-American_writers']
+    html_tags: str = ['li']
+
+    vocab_freq_threshold = 3
 
     # pickles
     pages_url: str = 'data/page_links.p'

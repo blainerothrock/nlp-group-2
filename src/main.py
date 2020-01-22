@@ -19,6 +19,7 @@ def main():
     if not os.path.exists(Global.vocab_pickle_url):
         create_vocab()
 
+
 def fetch_data():
     parser = WikiParser()
 

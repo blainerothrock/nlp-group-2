@@ -1,6 +1,6 @@
 import re
 import nltk
-from nltk.tokenize import RegexpTokenizer
+from nltk.tokenize import RegexpTokenizer, WordPunctTokenizer
 from constants import Global, DataManagement
 import time
 
@@ -50,7 +50,9 @@ class Corpus():
                                 sentence = sentence.lower()
 
                                 # create tokens and remove punctuation
-                                tokenizer = RegexpTokenizer(r'\w+')
+                                # tokenizer = RegexpTokenizer(r'\w+')
+                                # sentence_tokens = tokenizer.tokenize(sentence)
+                                tokenizer = WordPunctTokenizer()
                                 sentence_tokens = tokenizer.tokenize(sentence)
 
                                 # append <s> and </s> to begin and end of sentences
@@ -61,8 +63,15 @@ class Corpus():
 
         # remove one letter words that are not 'a', 'i'
         for idx, tok in enumerate(self.tokens):
-            if len(tok) <= 1 and tok not in ['a', 'i']:
+            if len(tok) <= 1 and not tok.isalnum() and tok not in ['a', 'i']:
                 del self.tokens[idx]
+
+        # remove tokens with freq < vocab_freq_threshold
+        tok_freq = {}
+        for tok in self.tokens:
+            tok_freq[tok] = self.tokens.count(tok)
+
+        self.tokens = [tok for tok in filter(lambda x: tok_freq[x] >= Global.vocab_freq_threshold, self.tokens)]
 
         # close raw data file and report
         f.close()
