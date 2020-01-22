@@ -29,6 +29,10 @@ class Global:
     sparql_page_label: str = 'article'
     sparql_name_label: str = 'shipLabel'
 
+    topics: str = ['battles-1901-2000', 'war']
+    list_urls: str = ['https://en.wikipedia.org/wiki/List_of_battles_(alphabetical)', 'https://en.wikipedia.org/wiki/Outline_of_war#Wars']
+    html_tags: str = ['li', 'li']
+
     # pickles
     pages_url: str = 'data/page_links.p'
     train_pickle_url = 'data/group2.train.p'
@@ -40,7 +44,7 @@ class Global:
     names_url: str = 'data/page_titles.p'
 
     # text files
-    raw_text_url = 'data/battles-1901-2000_raw.txt'
+    raw_text_url = 'data/group2.raw.txt'
     train_txt_url = 'data/group2.train.txt'
     valid_txt_url = 'data/group2.valid.txt'
     test_txt_url = 'data/group2.test.txt'
@@ -54,6 +58,15 @@ class DataManagement:
     def purge():
         try:
             os.remove(Global.pages_url)
+            os.remove(Global.train_pickle_url)
+            os.remove(Global.valid_pickle_url)
+            os.remove(Global.test_pickle_url)
+            os.remove(Global.vocab_pickle_url)
+            os.remove(Global.vocab_dict_pickle_url)
+            os.remove(Global.raw_text_url)
+            os.remove(Global.train_txt_url)
+            os.remove(Global.valid_txt_url)
+            os.remove(Global.test_txt_url)
         except:
             logging.info('exception removing file')
 

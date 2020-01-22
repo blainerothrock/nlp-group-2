@@ -15,15 +15,11 @@ class WikiParser():
         soup = BeautifulSoup(index, 'html.parser')
         elements = soup.findAll(list_tag)
         links: List[str] = list(filter(lambda l: l and 'href' in l.attrs, [e.find('a') for e in elements]))
-        print(links)
 
         links = set([self.baseURL + link['href'] for link in links])
         titles: List[str] = [l.split('/')[-1] for l in list(links)]
-        print(titles)
-        pickle.dump(titles, open("data/" + topic + "_titles", 'wb'))
+        pickle.dump(titles, open("data/_dump/" + topic + "_titles", 'wb'))
 
-        print('number of articles: %i' % len(links))
-        print(links)
         return links
 
     def fetch_page(self, url: str) -> str:

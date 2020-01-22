@@ -2,6 +2,7 @@ from constants import Global, DataManagement
 from wiki_parser import WikiParser
 from SPARQLWrapper import SPARQLWrapper, JSON
 from time import sleep
+import sys
 
 
 def get_results(endpoint_url, query):
@@ -27,17 +28,13 @@ def fetch_articles():
     return pages
 
 
-def fetch_raw_text(pages, topic):
-    # fetch page labels
-    parser = WikiParser()
-    texts = []
+def fetch_text_from_urls(urls, parser):
 
-    print('fetching %i wikipedia pages' % len(pages))
-    with open("data/" + topic + "_raw.txt", 'w') as f:
+    print('fetching %i wikipedia pages' % len(urls))
+    with open(Global.raw_text_url, 'w') as f:
         count: float = 0.0
-        for url in pages:
-            print('  fetching text for %s -- %d' % (url, count/len(pages)))
-            parser = WikiParser()
+        for url in urls:
+            print("fetching text for %s | progress: %f%%" % (url, count/len(urls)*100))
             raw_text = parser.fetch_page(url)
             f.write('%s\n' % raw_text)
             count += 1
