@@ -1,13 +1,30 @@
-import requests
+import requests, re, pickle
 from bs4 import BeautifulSoup
-import typing
+from typing import *
 
 
 class WikiParser():
 
     def __init__(self):
         self.S = requests.Session()
+        self.baseURL = 'https://en.wikipedia.org/'
         self.URL = "https://en.wikipedia.org/w/api.php"
+
+    def parse_list_page(self, url, list_tag, topic,) -> List[str]:
+        index = requests.get(url).text
+        soup = BeautifulSoup(index, 'html.parser')
+        elements = soup.findAll(list_tag)
+        links: List[str] = list(filter(lambda l: l and 'href' in l.attrs, [e.find('a') for e in elements]))
+        print(links)
+
+        links = set([self.baseURL + link['href'] for link in links])
+        titles: List[str] = [l.split('/')[-1] for l in list(links)]
+        print(titles)
+        pickle.dump(titles, open("data/" + topic + "_titles", 'wb'))
+
+        print('number of articles: %i' % len(links))
+        print(links)
+        return links
 
     def fetch_page(self, url: str) -> str:
         index = requests.get(url).text
