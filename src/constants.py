@@ -31,23 +31,20 @@ class Global:
 
     # pickles
     pages_url: str = 'data/page_links.p'
+    train_pickle_url = 'data/group2.train.p'
+    valid_pickle_url = 'data/group2.valid.p'
+    test_pickle_url = 'data/group2.test.p'
+    vocab_pickle_url = 'data/group2.vocab.p'
+    vocab_dict_pickle_url = 'data/group2.vocab_dict.p'
 
     # text files
     raw_text_url = 'data/group2.raw.txt'
-
-    # train/valid/test sizes
-    train_percent = .9
-
-    # train/valid/test files
     train_txt_url = 'data/group2.train.txt'
     valid_txt_url = 'data/group2.valid.txt'
     test_txt_url = 'data/group2.test.txt'
 
-    # train/valid/test pickle files
-    train_pickle_url = 'data/group2.train.p'
-    valid_pickle_url = 'data/group2.valid.p'
-    test_pickle_url = 'data/group2.test.p'
-
+    # train/valid/test sizes
+    train_percent = .9
 
 class DataManagement:
 
@@ -81,14 +78,16 @@ class DataManagement:
         pickle.dump(train, open(Global.train_pickle_url, 'wb'))
         with open(Global.train_txt_url, 'w') as f:
             f.writelines("%s " % tok for tok in train)
-        f.close()
 
         pickle.dump(valid, open(Global.valid_pickle_url, 'wb'))
         with open(Global.valid_txt_url, 'w') as f:
             f.writelines("%s " % tok for tok in valid)
-        f.close()
 
         pickle.dump(test, open(Global.test_pickle_url, 'wb'))
         with open(Global.test_txt_url, 'w') as f:
             f.writelines("%s " % tok for tok in test)
-        f.close()
+
+    @staticmethod
+    def save_vocab_data(vocab: List[str], vocab_dict: Dict[str, int]):
+        pickle.dump(vocab, open(Global.vocab_pickle_url, 'wb'))
+        pickle.dump(vocab_dict, open(Global.vocab_dict_pickle_url, 'wb'))

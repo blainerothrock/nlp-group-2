@@ -59,6 +59,11 @@ class Corpus():
 
                                 self.tokens += sentence_tokens
 
+        # remove one letter words that are not 'a', 'i'
+        for idx, tok in enumerate(self.tokens):
+            if len(tok) <= 1 and tok not in ['a', 'i']:
+                del self.tokens[idx]
+
         # close raw data file and report
         f.close()
         self.count = len(self.tokens)
