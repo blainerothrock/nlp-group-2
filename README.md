@@ -25,7 +25,7 @@ Configurations/parameters can be found in `constants.py`
     - [x] Remove punctuation
     - [x] Remove "[citation needed]" - could just adjust current regex code in prepare-corpus branch
 - [x] Generated train, test & validation text files
-- [ ] Remove tokens with frequency token of < 3
+- [ ] Remove tokens with frequency < 3
 
 ### Task 3
 - [x] Construct a vocabulary from the training set
@@ -33,14 +33,15 @@ Configurations/parameters can be found in `constants.py`
 - [x] Remove all one-character tokens that are not 'a' (see group2.test.txt for examples)
 - [x] Save Python list of vocabulary
 - [x] Save dictionary `{ [WORD] : [IDX] }`
-- [ ] Construct integer representation of training, validation and test corpra, save as lists
+- [x] Construct integer representation of training, validation and test corpora, save as lists
 
 ### Task 4
 - [ ] Insert tags for years
 - [ ] Insert tags for real numbers
 - [ ] Insert tags for `c` <-- decide what tag to remove
 - [ ] Insert tags for `d` <-- decide what tag to remove
-- [ ] create new integer represetnations of training, validation and test corpra, save as lists
+- [ ] Add these tags to the `vocab` list before making integer representation
+- [ ] Construct integer representation of training, validation and test corpora, save as lists
 
 ### Task 5
 - [ ] Prepare statistical summary of corpus
