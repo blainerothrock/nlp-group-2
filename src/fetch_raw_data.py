@@ -1,4 +1,4 @@
-from constants import Global, DataManagment
+from constants import Global, DataManagement
 from wiki_parser import WikiParser
 from SPARQLWrapper import SPARQLWrapper, JSON
 from time import sleep
@@ -21,8 +21,8 @@ def fetch_articles():
     ))
     pages = set([ele[Global.sparql_page_label]['value'] for ele in bindings])
     names = set([ele[Global.sparql_name_label]['value'] for ele in bindings])
-    DataManagment.save_pages(pages)
-    DataManagment.save_names(names)
+    DataManagement.save_pages(pages)
+    DataManagement.save_names(names)
     print(list(names))
     return pages
 
