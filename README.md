@@ -35,6 +35,7 @@ Configurations/parameters can be found in `constants.py`
 - [x] Save Python list of vocabulary
 - [x] Save dictionary `{ [WORD] : [IDX] }`
 - [x] Construct integer representation of training, validation and test corpora, save as lists
+- [ ] Don't forget to write integer representations to pickle files
 
 ### Task 4
 - [ ] Insert tags for years
