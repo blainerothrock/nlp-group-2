@@ -26,6 +26,7 @@ Configurations/parameters can be found in `constants.py`
     - [x] Remove "[citation needed]" - could just adjust current regex code in prepare-corpus branch
 - [x] Generated train, test & validation text files
 - [ ] Remove tokens with frequency < 3
+- [ ] Add punctuation back in
 
 ### Task 3
 - [x] Construct a vocabulary from the training set
