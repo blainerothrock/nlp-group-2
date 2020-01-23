@@ -82,21 +82,21 @@ class Corpus():
         for x in pycountry.countries:
             country_list.append(x.name)
 
-        tagged_tokens = self.tokens
+        tag_tokens = self.tokens
         # tag tokens for year, real number, month name, country name
-        for idx, tok in enumerate(tagged_tokens):
+        for idx, tok in enumerate(tag_tokens):
             if re.match(r'.*([1-3][0-9]{3})', tok) is not None:
-                tagged_tokens[idx] = '<year>'
+                tag_tokens[idx] = '<year>'
             elif re.match(r'.*([0-9]\.?[0-9]?)', tok) is not None:
-                tagged_tokens[idx] = '<realnumber>'
+                tag_tokens[idx] = '<realnumber>'
             if re.match(
                     r'.*(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?)',
                     tok, re.IGNORECASE) is not None:
-                tagged_tokens[idx] = '<month>'
+                tag_tokens[idx] = '<month>'
             if tok.casefold() in (name.casefold() for name in country_list):
-                tagged_tokens[idx] = '<country_name>'
+                tag_tokens[idx] = '<country_name>'
 
-        self.tagged_tokens = tagged_tokens
+        self.tagged_tokens = tag_tokens
         # close raw data file and report
         f.close()
         self.count = len(self.tokens)
@@ -129,13 +129,13 @@ class Corpus():
         self.num_valid = (self.count - self.num_train) // 2
         self.valid_tokens = self.tokens[self.num_train:(self.num_train+self.num_valid)]
 
-        self.tagged_valid_tokens = self.tokens[self.num_train:(self.num_train+self.num_valid)]
+        self.tagged_valid_tokens = self.tagged_tokens[self.num_train:(self.num_train+self.num_valid)]
 
         # store test
         self.num_test = self.count - (self.num_train+self.num_valid)
         self.test_tokens = self.tokens[(self.num_train+self.num_valid):]
 
-        self.tagged_test_tokens = self.tokens[(self.num_train+self.num_valid):]
+        self.tagged_test_tokens = self.tagged_tokens[(self.num_train+self.num_valid):]
 
         assert(self.num_train + self.num_valid + self.num_test == self.count)
 
