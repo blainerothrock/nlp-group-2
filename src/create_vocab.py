@@ -90,6 +90,7 @@ def create_vocab():
     # write data
     DataManagement.save_vocab_data(vocab, vocab_dict)
     DataManagement.save_tagged_vocab_data(tagged_vocab, tagged_vocab_dict)
+    DataManagement.save_integer_represented_vocab_data(train_integer_untagged, valid_integer_untagged, test_integer_untagged, train_integer_tagged, valid_integer_tagged, test_integer_tagged)
     print('\nSaved vocab and integer representations to files.')
 
 def create_integer_representations(token_list, vocab_dict):

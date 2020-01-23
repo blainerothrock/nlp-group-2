@@ -55,6 +55,16 @@ class Global:
     tagged_vocab_pickle_url = 'data/group2.tagged_vocab.p'
     tagged_vocab_dict_pickle_url = 'data/group2.tagged_vocab_dict.p'
 
+    int_train_pickle_url = 'data/group2.int_train.p'
+    int_valid_pickle_url = 'data/group2.int_valid.p'
+    int_test_pickle_url = 'data/group2.int_test.p'
+
+    int_tagged_train_pickle_url = 'data/group2.int_tagged_train.p'
+    int_tagged_valid_pickle_url = 'data/group2.int_tagged_valid.p'
+    int_tagged_test_pickle_url = 'data/group2.int_tagged_test.p'
+
+
+
     names_url: str = 'data/page_titles.p'
 
     # text files
@@ -163,3 +173,12 @@ class DataManagement:
     def save_tagged_vocab_data(vocab: List[str], vocab_dict: Dict[str, int]):
         pickle.dump(vocab, open(Global.tagged_vocab_pickle_url, 'wb'))
         pickle.dump(vocab_dict, open(Global.tagged_vocab_dict_pickle_url, 'wb'))
+
+    @staticmethod
+    def save_integer_represented_vocab_data(train: List[int], valid: List[int], test: List[int], tag_train: List[int], tag_valid: List[int], tag_test: List[int]):
+        pickle.dump(train, open(Global.int_train_pickle_url, 'wb'))
+        pickle.dump(valid, open(Global.int_train_pickle_url, 'wb'))
+        pickle.dump(test, open(Global.int_train_pickle_url, 'wb'))
+        pickle.dump(tag_train, open(Global.int_tagged_train_pickle_url, 'wb'))
+        pickle.dump(tag_valid, open(Global.int_tagged_valid_pickle_url, 'wb'))
+        pickle.dump(tag_test, open(Global.int_tagged_test_pickle_url, 'wb'))
