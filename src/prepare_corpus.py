@@ -43,6 +43,7 @@ class Corpus():
             i = 0
 
             # iterate thru lines of raw text
+            print('  tokenizing...')
             for line in f:
                 if line:
                     sentences = nltk.sent_tokenize(line)  # nltk not perfect here, makes some mistakes
@@ -67,36 +68,44 @@ class Corpus():
 
 
         # remove one letter words that are not 'a', 'i'
-        for idx, tok in enumerate(self.tokens):
-            if len(tok) <= 1 and not tok.isalnum() and tok not in ['a', 'i']:
-                del self.tokens[idx]
-
-        # remove tokens with freq < vocab_freq_threshold
+        print('  removing single letter characters & counting freq...')
         tok_freq = {}
-        for tok in self.tokens:
-            tok_freq[tok] = self.tokens.count(tok)
+        removed_single_characters = []
+        for idx, tok in enumerate(self.tokens):
+            if not (len(tok) <= 1 and not tok.isalnum() and tok not in ['a', 'i']):
+                removed_single_characters.append(tok)
+                tok_freq[tok] = tok_freq.get(tok, 0) + 1
 
+
+        self.tokens = removed_single_characters
+        del removed_single_characters
+
+        print('  removing words with less than 3 freq...')
         self.tokens = [tok for tok in filter(lambda x: tok_freq[x] >= Global.vocab_freq_threshold, self.tokens)]
 
         country_list = []
         for x in pycountry.countries:
-            country_list.append(x.name)
+            country_list.append(x.name.lower())
 
-        tag_tokens = self.tokens
+        tag_tokens = []
         # tag tokens for year, real number, month name, country name
-        for idx, tok in enumerate(tag_tokens):
+        print('  replacing token...')
+        for tok in self.tokens:
             if re.match(r'.*([1-3][0-9]{3})', tok) is not None:
-                tag_tokens[idx] = '<year>'
+                tag_tokens.append('<year>')
             elif re.match(r'.*([0-9]\.?[0-9]?)', tok) is not None:
-                tag_tokens[idx] = '<realnumber>'
-            if re.match(
+                tag_tokens.append('<realnumber>')
+            elif re.match(
                     r'.*(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?)',
                     tok, re.IGNORECASE) is not None:
-                tag_tokens[idx] = '<month>'
-            if tok.casefold() in (name.casefold() for name in country_list):
-                tag_tokens[idx] = '<country_name>'
+                tag_tokens.append('<month>')
+            elif tok.casefold() in country_list:
+                tag_tokens.append('<country_name>')
+            else:
+                tag_tokens.append(tok)
 
         self.tagged_tokens = tag_tokens
+        del tag_tokens
         # close raw data file and report
         f.close()
         self.count = len(self.tokens)
@@ -143,6 +152,7 @@ class Corpus():
         print('\nWriting to files...')
         DataManagement.write_train_valid_test(self.train_tokens, self.valid_tokens, self.test_tokens)
         DataManagement.write_tagged_train_valid_test(self.tagged_train_tokens, self.tagged_valid_tokens, self.tagged_test_tokens)
+
         print('\nDone.')
 
 
