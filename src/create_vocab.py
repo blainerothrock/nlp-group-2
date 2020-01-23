@@ -22,8 +22,9 @@ def create_vocab():
         train_tokens = pickle.load(f)
 
     # not sure of a cheap way to check if words (if tok not in words.words() is quite expensive)
-    vocab = list(set([tok for tok in train_tokens]))
-    print('\nVOCAB:', vocab[:10])
+    vocab = set([tok for tok in train_tokens])
+
+    print('\nVOCAB:', list(vocab)[:10])
 
     # vocab length is ~38,000 for now
     # print(len(vocab), vocab[:100])
@@ -36,18 +37,14 @@ def create_vocab():
 
     # replace out of vocab (OOV) words with <unk> in valid and test tokens
     print('\nReplacing OOV words with <unk>. This may take a minute or two...')
-    for idx, tok in enumerate(valid_tokens):
-        if tok not in vocab:
-            valid_tokens[idx] = '<unk>'
 
-    for idx, tok in enumerate(test_tokens):
-        if tok not in vocab:
-            test_tokens[idx] = '<unk>'
+    test_tokens = [tok if tok in vocab else '<unk>' for tok in test_tokens]
+    valid_tokens = [tok if tok in vocab else '<unk>' for tok in valid_tokens]
 
-    print('\nVALID:', valid_tokens[:100])
-    print('\nTEST:', test_tokens[:100])
+    print('\nVALID:', list(valid_tokens)[:100])
+    print('\nTEST:', list(test_tokens)[:100])
 
-    vocab.append('<unk>')
+    vocab.add('<unk>')
 
     # create dictionary (might not need dict, could do vocab.index('cat') to get integer representations
     vocab_dict = {}
@@ -63,26 +60,21 @@ def create_vocab():
     with open(Global.tagged_test_pickle_url, 'rb') as f:
         tagged_test_tokens = pickle.load(f)
 
-    tagged_vocab = list(set([tok for tok in tagged_train_tokens]))
+    tagged_vocab = set([tok for tok in tagged_train_tokens])
 
-    for idx, tok in enumerate(tagged_valid_tokens):
-        if tok not in tagged_vocab:
-            tagged_valid_tokens[idx] = '<unk>'
-
-    for idx, tok in enumerate(tagged_test_tokens):
-        if tok not in tagged_vocab:
-            tagged_test_tokens[idx] = '<unk>'
+    tagged_valid_tokens = [tok if tok in tagged_vocab else '<unk>' for tok in tagged_valid_tokens]
+    tagged_test_tokens = [tok if tok in tagged_vocab else '<unk>' for tok in tagged_test_tokens]
 
     # add <unk> to the vocabulary
-    tagged_vocab.append('<unk>')
-    tagged_vocab.append('<year>')
-    tagged_vocab.append('<month>')
-    tagged_vocab.append('<country_name>')
-    tagged_vocab.append('<realnumber>')
+    tagged_vocab.add('<unk>')
+    tagged_vocab.add('<year>')
+    tagged_vocab.add('<month>')
+    tagged_vocab.add('<country_name>')
+    tagged_vocab.add('<realnumber>')
 
     # create tagged dictionary (might not need dict, could do vocab.index('cat') to get integer representations
     tagged_vocab_dict = {}
-    for i, v in enumerate(tagged_vocab):
+    for i, v in enumerate(list(tagged_vocab)):
         tagged_vocab_dict[v] = i
 
     # get integer representations
