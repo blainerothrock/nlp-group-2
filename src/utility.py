@@ -69,8 +69,8 @@ class Assignment1Stats(object):
         s += "  Tagged training tokens:    %i\n" % self.tagged_training_count
         s += "  Untagged testing tokens:   %i\n" % self.untagged_testing_count
         s += "  Tagged training tokens:    %i\n" % self.tagged_testing_count
-        s += "  Untagged training tokens:  %i\n" % self.untagged_validation
-        s += "  Tagged training tokens:    %i\n" % self.tagged_validation
+        s += "  Untagged validation tokens:  %i\n" % self.untagged_validation
+        s += "  Tagged validation tokens:    %i\n" % self.tagged_validation
 
         s += "  Untagged  vocab:           %i\n" % self.untagged_vocab_count
         s += "  Tagged  vocab:             %i\n" % self.tagged_vocab_count
