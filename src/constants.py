@@ -57,8 +57,6 @@ class Global:
 
     names_url: str = 'data/page_titles.p'
 
-    assignment1_stats_url = "data/assignment1_stats.p"
-
     # text files
     raw_text_url = 'data/group2.raw.txt'
     train_txt_url = 'data/group2.train.txt'
