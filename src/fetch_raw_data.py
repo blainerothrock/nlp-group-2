@@ -38,5 +38,5 @@ def fetch_text_from_urls(urls, parser):
             raw_text = parser.fetch_page(url)
             f.write('%s\n' % raw_text)
             count += 1
-            sleep(0.25)
+            sleep(0.01)
         f.close()

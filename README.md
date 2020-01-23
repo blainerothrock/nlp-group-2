@@ -16,7 +16,7 @@ Configurations/parameters can be found in `constants.py`
 ## Assignment 1 Checklist
 ### Task 1
 - [x] Generated raw Wikipedia Text
-- [ ] Write a Query that results in ~5 million tokens
+- [x] Write a Query that results in ~5 million tokens
 
 ### Task 2
 - [x] Strip HTML
@@ -25,8 +25,8 @@ Configurations/parameters can be found in `constants.py`
     - [x] Remove punctuation
     - [x] Remove "[citation needed]" - could just adjust current regex code in prepare-corpus branch
 - [x] Generated train, test & validation text files
-- [ ] Remove tokens with frequency < 3
-- [ ] Add punctuation back in!
+- [x] Remove tokens with frequency < 3
+- [x] Add punctuation back in!
 
 ### Task 3
 - [x] Construct a vocabulary from the training set
@@ -35,7 +35,7 @@ Configurations/parameters can be found in `constants.py`
 - [x] Save Python list of vocabulary
 - [x] Save dictionary `{ [WORD] : [IDX] }`
 - [x] Construct integer representation of training, validation and test corpora, save as lists
-- [ ] Don't forget to write integer representations to pickle files
+- [x] Don't forget to write integer representations to pickle files
 
 ### Task 4
 - [x] Insert tags for years
@@ -47,7 +47,7 @@ Configurations/parameters can be found in `constants.py`
 - [x] Construct integer representation of training, validation and test corpora, save as lists
 
 ### Task 5
-- [ ] Prepare statistical summary of corpus
+- [x] Prepare statistical summary of corpus
     - number of tokens
     - vocabulary size
         - untagged
@@ -55,8 +55,6 @@ Configurations/parameters can be found in `constants.py`
         - each 4 word classes
 
 ### Task 6
-- [ ] [Summary](https://docs.google.com/document/d/1dFqweNHXq2So4Abm2NIHZwCo0SC6XjwCwIdu5MjohlQ/edit) describing each task, including ambiguity and decisions we made 
+- [x] [Summary](https://docs.google.com/document/d/1dFqweNHXq2So4Abm2NIHZwCo0SC6XjwCwIdu5MjohlQ/edit) describing each task, including ambiguity and decisions we made 
     
 ## List of Questions for David
-- [ ] Q1
-- [ ] etc.

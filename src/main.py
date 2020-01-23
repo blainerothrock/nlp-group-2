@@ -3,7 +3,7 @@ from wiki_parser import WikiParser
 from constants import DataManagement, Global
 from prepare_corpus import Corpus
 from create_vocab import create_vocab
-from utility import assignment1_stats_summary
+from utility import Assignment1Stats
 import os
 
 def main():
@@ -20,7 +20,8 @@ def main():
     if not os.path.exists(Global.vocab_pickle_url):
         create_vocab()
 
-    assignment1_stats_summary()
+    stats = Assignment1Stats()
+    print(stats)
 
 
 def fetch_data():
