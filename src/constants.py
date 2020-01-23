@@ -3,21 +3,22 @@ from typing import *
 
 logging.basicConfig(filename='example.log', level=logging.DEBUG)
 
+
 class Global:
     sparql_query: str = """
     PREFIX schema: <http://schema.org/>
     PREFIX wikibase: <http://wikiba.se/ontology#>
     PREFIX wd: <http://www.wikidata.org/entity/>
     PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    
+
     SELECT ?ship ?shipLabel ?article WHERE {
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
       ?ship wdt:P31 wd:Q11446.
-      
+
       OPTIONAL {
         ?ship rdfs:label ?country filter (lang(?country) = "en") .
       }
-          
+
       OPTIONAL {
         ?article schema:about ?ship .
         ?article schema:inLanguage "en" .
@@ -43,8 +44,16 @@ class Global:
     train_pickle_url = 'data/group2.train.p'
     valid_pickle_url = 'data/group2.valid.p'
     test_pickle_url = 'data/group2.test.p'
+
+    tagged_train_pickle_url = 'data/group2.tagged_train.p'
+    tagged_valid_pickle_url = 'data/group2.tagged_valid.p'
+    tagged_test_pickle_url = 'data/group2.tagged_test.p'
+
     vocab_pickle_url = 'data/group2.vocab.p'
     vocab_dict_pickle_url = 'data/group2.vocab_dict.p'
+
+    tagged_vocab_pickle_url = 'data/group2.tagged_vocab.p'
+    tagged_vocab_dict_pickle_url = 'data/group2.tagged_vocab_dict.p'
 
     names_url: str = 'data/page_titles.p'
 
@@ -54,8 +63,13 @@ class Global:
     valid_txt_url = 'data/group2.valid.txt'
     test_txt_url = 'data/group2.test.txt'
 
+    tagged_train_txt_url = 'data/group2.tagged_train.txt'
+    tagged_valid_txt_url = 'data/group2.tagged_valid.txt'
+    tagged_test_txt_url = 'data/group2.tagged_test.txt'
+
     # train/valid/test sizes
     train_percent = .9
+
 
 class DataManagement:
 
@@ -72,6 +86,12 @@ class DataManagement:
             os.remove(Global.train_txt_url)
             os.remove(Global.valid_txt_url)
             os.remove(Global.test_txt_url)
+            os.remove(Global.tagged_train_txt_url)
+            os.remove(Global.tagged_valid_txt_url)
+            os.remove(Global.tagged_test_txt_url)
+            os.remove(Global.tagged_train_pickle_url)
+            os.remove(Global.tagged_valid_pickle_url)
+            os.remove(Global.tagged_test_pickle_url)
         except:
             logging.info('exception removing file')
 
@@ -120,6 +140,26 @@ class DataManagement:
             f.writelines("%s " % tok for tok in test)
 
     @staticmethod
+    def write_tagged_train_valid_test(train: List[str], valid: List[str], test: List[str]):
+        # dump to lists pickle and write as string to txt file
+        pickle.dump(train, open(Global.tagged_train_pickle_url, 'wb'))
+        with open(Global.tagged_train_txt_url, 'w') as f:
+            f.writelines("%s " % tok for tok in train)
+
+        pickle.dump(valid, open(Global.tagged_valid_pickle_url, 'wb'))
+        with open(Global.tagged_valid_txt_url, 'w') as f:
+            f.writelines("%s " % tok for tok in valid)
+
+        pickle.dump(test, open(Global.tagged_test_pickle_url, 'wb'))
+        with open(Global.tagged_test_txt_url, 'w') as f:
+            f.writelines("%s " % tok for tok in test)
+
+    @staticmethod
     def save_vocab_data(vocab: List[str], vocab_dict: Dict[str, int]):
         pickle.dump(vocab, open(Global.vocab_pickle_url, 'wb'))
         pickle.dump(vocab_dict, open(Global.vocab_dict_pickle_url, 'wb'))
+
+    @staticmethod
+    def save_tagged_vocab_data(vocab: List[str], vocab_dict: Dict[str, int]):
+        pickle.dump(vocab, open(Global.tagged_vocab_pickle_url, 'wb'))
+        pickle.dump(vocab_dict, open(Global.tagged_vocab_dict_pickle_url, 'wb'))
