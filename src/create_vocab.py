@@ -47,7 +47,6 @@ def create_vocab():
     print('\nVALID:', valid_tokens[:100])
     print('\nTEST:', test_tokens[:100])
 
-    # add <unk> to the vocabulary
     vocab.append('<unk>')
 
     # create dictionary (might not need dict, could do vocab.index('cat') to get integer representations
@@ -57,18 +56,48 @@ def create_vocab():
 
     print('\nDICT:', dict(list(vocab_dict.items())[0:10]))
 
+    with open(Global.tagged_train_pickle_url, 'rb') as f:
+        tagged_train_tokens = pickle.load(f)
+    with open(Global.tagged_valid_pickle_url, 'rb') as f:
+        tagged_valid_tokens = pickle.load(f)
+    with open(Global.tagged_test_pickle_url, 'rb') as f:
+        tagged_test_tokens = pickle.load(f)
+
+    tagged_vocab = list(set([tok for tok in tagged_train_tokens]))
+
+    for idx, tok in enumerate(tagged_valid_tokens):
+        if tok not in tagged_vocab:
+            tagged_valid_tokens[idx] = '<unk>'
+
+    for idx, tok in enumerate(tagged_test_tokens):
+        if tok not in tagged_vocab:
+            tagged_test_tokens[idx] = '<unk>'
+
+    # add <unk> to the vocabulary
+    tagged_vocab.append('<unk>')
+    tagged_vocab.append('<year>')
+    tagged_vocab.append('<month>')
+    tagged_vocab.append('<country_name>')
+    tagged_vocab.append('<realnumber>')
+
+    # create tagged dictionary (might not need dict, could do vocab.index('cat') to get integer representations
+    tagged_vocab_dict = {}
+    for i, v in enumerate(tagged_vocab):
+        tagged_vocab_dict[v] = i
+
     # get integer representations
     print('\nCreating integer representations...')
     train_integer_untagged = create_integer_representations(train_tokens, vocab_dict)
     valid_integer_untagged = create_integer_representations(valid_tokens, vocab_dict)
     test_integer_untagged = create_integer_representations(test_tokens, vocab_dict)
-
     # TODO: Sundar add the "tagged" corpus to this (3 more calls)
-
-
+    train_integer_tagged = create_integer_representations(tagged_train_tokens, tagged_vocab_dict)
+    valid_integer_tagged = create_integer_representations(tagged_valid_tokens, tagged_vocab_dict)
+    test_integer_tagged = create_integer_representations(tagged_test_tokens, tagged_vocab_dict)
 
     # write data
     DataManagement.save_vocab_data(vocab, vocab_dict)
+    DataManagement.save_tagged_vocab_data(tagged_vocab, tagged_vocab_dict)
     print('\nSaved vocab and integer representations to files.')
 
 def create_integer_representations(token_list, vocab_dict):

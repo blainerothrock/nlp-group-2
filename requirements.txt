@@ -3,3 +3,4 @@ nltk==3.4.5
 requests==2.22.0
 beautifulsoup4==4.8.2
 pyyaml==5.3
+pycountry
