@@ -41,8 +41,8 @@ Configurations/parameters can be found in `constants.py`
 - [x] Insert tags for years
 - [x] Insert tags for real numbers
 - [x] Keep other numbers in as tokens (don't tag or remove them)
-- [x] Insert tags for `c` <-- decide what tag to remove
-- [x] Insert tags for `d` <-- decide what tag to remove
+- [x] Insert tags for country name
+- [x] Insert tags for month name
 - [x] Add these tags to the `vocab` list before making integer representation
 - [x] Construct integer representation of training, validation and test corpora, save as lists
 
