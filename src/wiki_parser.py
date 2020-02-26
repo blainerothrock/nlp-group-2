@@ -18,7 +18,7 @@ class WikiParser():
 
         links = set([self.baseURL + link['href'] for link in links])
         titles: List[str] = [l.split('/')[-1] for l in list(links)]
-        pickle.dump(titles, open("data/_dump/" + topic + "_titles", 'wb'))
+        pickle.dump(titles, open("data/" + topic + "_titles", 'wb'))
 
         return links
 
